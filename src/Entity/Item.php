@@ -29,12 +29,12 @@ class Item
     private $description;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Tag", inversedBy="items")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Tag", inversedBy="items", orphanRemoval=true, cascade={"persist"})
      */
     private $tags;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\MapOption", inversedBy="items")
+     * @ORM\ManyToMany(targetEntity="App\Entity\MapOption", inversedBy="items", orphanRemoval=true, cascade={"persist"})
      */
     private $mapOptions;
 
