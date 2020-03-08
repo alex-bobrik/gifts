@@ -60,12 +60,12 @@ class ItemController extends AbstractController
 
     /**
      * @Route("/admin/items/edit/{id}", name="admin_items_edit")
-     * @param EntityManagerInterface $em
      * @param Request $request
+     * @param ItemService $itemService
      * @param int $id
      * @return Response
      */
-    public function editItem(EntityManagerInterface $em, Request $request, int $id)
+    public function editItem(Request $request, ItemService $itemService, int $id)
     {
         $item = $this->getDoctrine()->getRepository(Item::class)->find($id);
 
@@ -74,10 +74,12 @@ class ItemController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted()) {
             $item = $form->getData();
-            $em->flush();
+            $itemService->saveItem($item);
+
+            return $this->redirectToRoute('admin_items');
         }
 
-        return $this->render('item/index.html.twig', [
+        return $this->render('item/edit.html.twig', [
             'controller_name' => 'ItemController',
             'form' => $form->createView(),
         ]);
