@@ -10,6 +10,7 @@ use App\Service\ItemService;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -19,7 +20,7 @@ class ItemController extends AbstractController
     /**
      * @Route("/admin/items", name="admin_items")
      * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
+     * @return RedirectResponse|Response
      */
     public function index(Request $request)
     {
@@ -86,14 +87,14 @@ class ItemController extends AbstractController
     }
 
     /**
-     * @Route("/admin/items/delete", name="admin_items_delete")
+     * @Route("/admin/items/delete/{id}", name="admin_items_delete")
+     * @param ItemService $itemService
+     * @param int $id
+     * @return Response
      */
-    public function deleteItem()
+    public function deleteItem(ItemService $itemService, int $id)
     {
-
-
-        return $this->render('item/index.html.twig', [
-            'controller_name' => 'ItemController',
-        ]);
+        $itemService->deleteItemById($id);
+        return $this->redirectToRoute('admin_items');
     }
 }
