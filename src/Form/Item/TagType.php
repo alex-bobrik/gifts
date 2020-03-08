@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Form;
+namespace App\Form\Item;
 
 use App\Entity\Tag;
 use Symfony\Component\Form\AbstractType;

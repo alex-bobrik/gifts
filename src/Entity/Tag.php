@@ -23,14 +23,20 @@ class Tag
      */
     private $name;
 
+//    /**
+//     * @ORM\ManyToMany(targetEntity="App\Entity\Item", mappedBy="tags")
+//     */
+//    private $items;
+
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Item", mappedBy="tags")
+     * @ORM\OneToMany(targetEntity="App\Entity\ItemTag", mappedBy="tag")
      */
-    private $items;
+    private $itemTags;
 
     public function __construct()
     {
-        $this->items = new ArrayCollection();
+//        $this->items = new ArrayCollection();
+        $this->itemTags = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -50,29 +56,60 @@ class Tag
         return $this;
     }
 
+//    /**
+//     * @return Collection|Item[]
+//     */
+//    public function getItems(): Collection
+//    {
+//        return $this->items;
+//    }
+//
+//    public function addItem(Item $item): self
+//    {
+//        if (!$this->items->contains($item)) {
+//            $this->items[] = $item;
+//            $item->addTag($this);
+//        }
+//
+//        return $this;
+//    }
+//
+//    public function removeItem(Item $item): self
+//    {
+//        if ($this->items->contains($item)) {
+//            $this->items->removeElement($item);
+//            $item->removeTag($this);
+//        }
+//
+//        return $this;
+//    }
+
     /**
-     * @return Collection|Item[]
+     * @return Collection|ItemTag[]
      */
-    public function getItems(): Collection
+    public function getItemTags(): Collection
     {
-        return $this->items;
+        return $this->itemTags;
     }
 
-    public function addItem(Item $item): self
+    public function addItemTag(ItemTag $itemTag): self
     {
-        if (!$this->items->contains($item)) {
-            $this->items[] = $item;
-            $item->addTag($this);
+        if (!$this->itemTags->contains($itemTag)) {
+            $this->itemTags[] = $itemTag;
+            $itemTag->setTag($this);
         }
 
         return $this;
     }
 
-    public function removeItem(Item $item): self
+    public function removeItemTag(ItemTag $itemTag): self
     {
-        if ($this->items->contains($item)) {
-            $this->items->removeElement($item);
-            $item->removeTag($this);
+        if ($this->itemTags->contains($itemTag)) {
+            $this->itemTags->removeElement($itemTag);
+            // set the owning side to null (unless already changed)
+            if ($itemTag->getTag() === $this) {
+                $itemTag->setTag(null);
+            }
         }
 
         return $this;

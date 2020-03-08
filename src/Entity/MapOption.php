@@ -24,13 +24,18 @@ class MapOption
     private $name;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Item", mappedBy="mapOptions")
+     * @ORM\OneToMany(targetEntity="App\Entity\Item", mappedBy="mapOption")
      */
     private $items;
 
+//    /**
+//     * @ORM\ManyToMany(targetEntity="App\Entity\Item", mappedBy="mapOptions")
+//     */
+//    private $items;
+
     public function __construct()
     {
-        $this->items = new ArrayCollection();
+//        $this->items = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -62,7 +67,7 @@ class MapOption
     {
         if (!$this->items->contains($item)) {
             $this->items[] = $item;
-            $item->addMapOption($this);
+            $item->setMapOption($this);
         }
 
         return $this;
@@ -72,9 +77,40 @@ class MapOption
     {
         if ($this->items->contains($item)) {
             $this->items->removeElement($item);
-            $item->removeMapOption($this);
+            // set the owning side to null (unless already changed)
+            if ($item->getMapOption() === $this) {
+                $item->setMapOption(null);
+            }
         }
 
         return $this;
     }
+
+//    /**
+//     * @return Collection|Item[]
+//     */
+//    public function getItems(): Collection
+//    {
+//        return $this->items;
+//    }
+//
+//    public function addItem(Item $item): self
+//    {
+//        if (!$this->items->contains($item)) {
+//            $this->items[] = $item;
+//            $item->addMapOption($this);
+//        }
+//
+//        return $this;
+//    }
+//
+//    public function removeItem(Item $item): self
+//    {
+//        if ($this->items->contains($item)) {
+//            $this->items->removeElement($item);
+//            $item->removeMapOption($this);
+//        }
+//
+//        return $this;
+//    }
 }

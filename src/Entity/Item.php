@@ -28,20 +28,31 @@ class Item
      */
     private $description;
 
-    /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Tag", inversedBy="items", orphanRemoval=true, cascade={"persist"})
-     */
-    private $tags;
+//    /**
+//     * @ORM\ManyToMany(targetEntity="App\Entity\Tag", inversedBy="items", orphanRemoval=true, cascade={"persist"})
+//     */
+//    private $tags;
+
+//    /**
+//     * @ORM\ManyToMany(targetEntity="App\Entity\MapOption", inversedBy="items", orphanRemoval=true, cascade={"persist"})
+//     */
+//    private $mapOptions;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\MapOption", inversedBy="items", orphanRemoval=true, cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="App\Entity\ItemTag", mappedBy="item", orphanRemoval=true, cascade={"persist"})
      */
-    private $mapOptions;
+    private $itemTags;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\MapOption", inversedBy="items", cascade={"persist"})
+     */
+    private $mapOption;
 
     public function __construct()
     {
-        $this->tags = new ArrayCollection();
-        $this->mapOptions = new ArrayCollection();
+//        $this->tags = new ArrayCollection();
+//        $this->mapOptions = new ArrayCollection();
+        $this->itemTags = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -73,54 +84,97 @@ class Item
         return $this;
     }
 
+//    /**
+//     * @return Collection|Tag[]
+//     */
+//    public function getTags(): Collection
+//    {
+//        return $this->tags;
+//    }
+//
+//    public function addTag(Tag $tag): self
+//    {
+//        if (!$this->tags->contains($tag)) {
+//            $this->tags[] = $tag;
+//        }
+//
+//        return $this;
+//    }
+//
+//    public function removeTag(Tag $tag): self
+//    {
+//        if ($this->tags->contains($tag)) {
+//            $this->tags->removeElement($tag);
+//        }
+//
+//        return $this;
+//    }
+
+//    /**
+//     * @return Collection|MapOption[]
+//     */
+//    public function getMapOptions(): Collection
+//    {
+//        return $this->mapOptions;
+//    }
+//
+//    public function addMapOption(MapOption $mapOption): self
+//    {
+//        if (!$this->mapOptions->contains($mapOption)) {
+//            $this->mapOptions[] = $mapOption;
+//        }
+//
+//        return $this;
+//    }
+//
+//    public function removeMapOption(MapOption $mapOption): self
+//    {
+//        if ($this->mapOptions->contains($mapOption)) {
+//            $this->mapOptions->removeElement($mapOption);
+//        }
+//
+//        return $this;
+//    }
+
     /**
-     * @return Collection|Tag[]
+     * @return Collection|ItemTag[]
      */
-    public function getTags(): Collection
+    public function getItemTags(): Collection
     {
-        return $this->tags;
+        return $this->itemTags;
     }
 
-    public function addTag(Tag $tag): self
+    public function addItemTag(ItemTag $itemTag): self
     {
-        if (!$this->tags->contains($tag)) {
-            $this->tags[] = $tag;
+        if (!$this->itemTags->contains($itemTag)) {
+            $this->itemTags[] = $itemTag;
+            $itemTag->setItem($this);
         }
 
         return $this;
     }
 
-    public function removeTag(Tag $tag): self
+    public function removeItemTag(ItemTag $itemTag): self
     {
-        if ($this->tags->contains($tag)) {
-            $this->tags->removeElement($tag);
+        if ($this->itemTags->contains($itemTag)) {
+            $this->itemTags->removeElement($itemTag);
+            // set the owning side to null (unless already changed)
+            if ($itemTag->getItem() === $this) {
+                $itemTag->setItem(null);
+            }
         }
 
         return $this;
     }
 
-    /**
-     * @return Collection|MapOption[]
-     */
-    public function getMapOptions(): Collection
+    public function getMapOption(): ?MapOption
     {
-        return $this->mapOptions;
+        return $this->mapOption;
     }
 
-    public function addMapOption(MapOption $mapOption): self
+    public function setMapOption(?MapOption $mapOption): self
     {
-        if (!$this->mapOptions->contains($mapOption)) {
-            $this->mapOptions[] = $mapOption;
-        }
-
-        return $this;
-    }
-
-    public function removeMapOption(MapOption $mapOption): self
-    {
-        if ($this->mapOptions->contains($mapOption)) {
-            $this->mapOptions->removeElement($mapOption);
-        }
+        $this->mapOption = $mapOption;
 
         return $this;
     }

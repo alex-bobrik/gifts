@@ -5,7 +5,8 @@ namespace App\Controller;
 use App\Entity\Item;
 use App\Entity\MapOption;
 use App\Entity\Tag;
-use App\Form\ItemType;
+use App\Form\Item\ItemType;
+use App\Service\ItemService;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -22,18 +23,23 @@ class ItemController extends AbstractController
      */
     public function index(Request $request)
     {
+        $items = $this->getDoctrine()->getRepository(Item::class)->findAll();
+
+        return $this->render('item/index.html.twig', [
+            'controller_name' => 'ItemController',
+            'items' => $items,
+        ]);
+    }
+
+    /**
+     * @Route("/admin/items/new", name="admin_items_new")
+     * @param Request $request
+     * @param ItemService $itemService
+     * @return Response
+     */
+    public function newItem(Request $request, ItemService $itemService)
+    {
         $item = new Item();
-        $item->setName('Item 1');
-        $item->setDescription('Item descr 1');
-        $tag1 = new Tag();
-        $tag2 = new Tag();
-        $tag1->setName('Tag 1');
-        $tag2->setName('Tag 2');
-        $item->addTag($tag1);
-        $item->addTag($tag2);
-        $option = new MapOption();
-        $option->setName('map 1');
-        $item->addMapOption($option);
 
         $form = $this->createForm(ItemType::class, $item);
 
@@ -41,26 +47,14 @@ class ItemController extends AbstractController
         if ($form->isSubmitted()) {
 
             $item = $form->getData();
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($item);
-            $em->flush();
+            $itemService->saveItem($item);
 
             return $this->redirectToRoute('admin_items');
         }
 
-        return $this->render('item/index.html.twig', [
+        return $this->render('item/new.html.twig', [
             'controller_name' => 'ItemController',
             'form' => $form->createView(),
-        ]);
-    }
-
-    /**
-     * @Route("/admin/items/new", name="admin_items_new")
-     */
-    public function newItem()
-    {
-        return $this->render('item/index.html.twig', [
-            'controller_name' => 'ItemController',
         ]);
     }
 

@@ -4,6 +4,29 @@
 
 {% block body %}
 
-    {{ form(form) }}
+    <div>
+        {% for item in items %}
+            <p>
+                Name: {{ item.name }}
+            </p>
+
+            <p>
+                Description: {{ item.description }}
+            </p>
+
+            <p>
+                MapOption: {{ item.mapOption.name }}
+            </p>
+
+            <p>
+                Tags: {% for itemTag in item.itemTags %}
+                    {{ itemTag.tag.name }}
+                {% endfor %}
+            </p>
+
+            <br>
+            <br>
+        {% endfor %}
+    </div>
 
 {% endblock %}
