@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ItemController!{% endblock %}
+
+{% block body %}
+
+    <style>
+        .tag {
+            display: inline-block;
+        }
+    </style>
+
+    <div class="container">
+        <div class="item-actions">
+            <a href="{{ path('admin_items_edit', {'id': item.id}) }}" class="btn btn-info">Edit</a>
+            <a href="{{ path('admin_items_delete', {'id': item.id}) }}" class="btn btn-danger">Delete</a>
+        </div>
+
+        <div class="item-block">
+            <div class="item-name">
+                <h1>Name:</h1>
+                {{ item.name }}
+            </div>
+            <div class="item-description">
+                <h1>Description:</h1>
+                {{ item.description }}
+            </div>
+            <div class="item-mapOption">
+                <h1>Map option:</h1>
+                {{ item.mapOption.name }}
+            </div>
+            <div class="item-tags">
+                <h1>Tags:</h1>
+                {% for itemTag in item.itemTags %}
+                    <div class="tag">
+                        {{ itemTag.tag.name }}
+                    </div>
+                {% endfor %}
+
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}

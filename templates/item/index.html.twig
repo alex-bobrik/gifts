@@ -4,29 +4,25 @@
 
 {% block body %}
 
-    <div>
-        {% for item in items %}
-            <p>
-                Name: {{ item.name }}
-            </p>
-
-            <p>
-                Description: {{ item.description }}
-            </p>
-
-            <p>
-                MapOption: {{ item.mapOption.name }}
-            </p>
-
-            <p>
-                Tags: {% for itemTag in item.itemTags %}
-                    {{ itemTag.tag.name }}
-                {% endfor %}
-            </p>
-
-            <br>
-            <br>
-        {% endfor %}
+    <div class="container">
+        <div class="buttons-header">
+            <a href="{{ path('admin_items_new') }}" class="btn btn-primary">New item</a>
+        </div>
+        <div class="items">
+            {% for item in items %}
+                <div class="item">
+                    <div class="item-content">
+                        <div class="item-name">
+                            <a href="{{ path('admin_item_info', {'id': item.id}) }}">{{ item.name }}</a>
+                        </div>
+                        <div class="item-description">
+                            {{ item.description }}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
     </div>
+
 
 {% endblock %}

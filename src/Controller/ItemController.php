@@ -22,13 +22,28 @@ class ItemController extends AbstractController
      * @param Request $request
      * @return RedirectResponse|Response
      */
-    public function index(Request $request)
+    public function index()
     {
         $items = $this->getDoctrine()->getRepository(Item::class)->findAll();
 
         return $this->render('item/index.html.twig', [
             'controller_name' => 'ItemController',
             'items' => $items,
+        ]);
+    }
+
+    /**
+     * @Route("/admin/items/{id}", name="admin_item_info", requirements={"id"="\d+"})
+     * @param int $id
+     * @return RedirectResponse|Response
+     */
+    public function itemInfo(int $id)
+    {
+        $item = $this->getDoctrine()->getRepository(Item::class)->find($id);
+
+        return $this->render('item/info.html.twig', [
+            'controller_name' => 'ItemController',
+            'item' => $item,
         ]);
     }
 
@@ -50,7 +65,7 @@ class ItemController extends AbstractController
             $item = $form->getData();
             $itemService->saveItem($item);
 
-            return $this->redirectToRoute('admin_items');
+            return $this->redirectToRoute('admin_item_info', ['id' => $item->getId()]);
         }
 
         return $this->render('item/new.html.twig', [
@@ -77,7 +92,7 @@ class ItemController extends AbstractController
             $item = $form->getData();
             $itemService->saveItem($item);
 
-            return $this->redirectToRoute('admin_items');
+            return $this->redirectToRoute('admin_item_info', ['id' => $item->getId()]);
         }
 
         return $this->render('item/edit.html.twig', [
