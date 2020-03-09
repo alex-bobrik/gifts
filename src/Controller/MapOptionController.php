@@ -77,4 +77,18 @@ class MapOptionController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+
+    /**
+     * @Route("/admin/map-options/delete/{id}", name="admin_mapOption_delete")
+     * @param Request $request
+     * @param MapOptionService $mapOptionService
+     * @param int $id
+     * @return Response
+     */
+    public function deleteMapOption(MapOptionService $mapOptionService, int $id)
+    {
+       $mapOptionService->deleteMapOptionById($id);
+
+       return $this->redirectToRoute('admin_mapOptions');
+    }
 }

@@ -22,4 +22,12 @@ class MapOptionService
         $this->em->flush();
     }
 
+    public function deleteMapOptionById(int $id)
+    {
+        $mapOption = $this->em->getRepository(MapOption::class)->find($id);
+
+        $this->em->remove($mapOption);
+        $this->em->flush();
+    }
+
 }

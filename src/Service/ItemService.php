@@ -5,7 +5,6 @@ namespace App\Service;
 
 
 use App\Entity\Item;
-use App\Form\ItemType;
 use Doctrine\ORM\EntityManagerInterface;
 
 class ItemService
