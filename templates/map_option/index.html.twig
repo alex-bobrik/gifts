@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello MapOptionController!{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <table class="table">
+            <thead>
+                <th scope="col">Tag</th>
+                <th scope="col">Action</th>
+            </thead>
+            <tbody>
+            {% for mapOption in mapOptions %}
+            <tr>
+                <td>
+                    {{ mapOption.name }}
+                </td>
+                <td>
+                    <a href="{{ path('admin_tag_edit', {'id': mapOption.id}) }}" class="btn btn-info">Edit</a>
+                </td>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
