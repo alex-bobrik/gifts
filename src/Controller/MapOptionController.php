@@ -50,4 +50,31 @@ class MapOptionController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+
+    /**
+     * @Route("/admin/map-options/edit/{id}", name="admin_mapOption_edit")
+     * @param Request $request
+     * @param MapOptionService $mapOptionService
+     * @param int $id
+     * @return Response
+     */
+    public function editMapOption(Request $request, MapOptionService $mapOptionService, int $id)
+    {
+        $mapOption = $this->getDoctrine()->getRepository(MapOption::class)->find($id);
+
+        $form = $this->createForm(MapOptionType::class, $mapOption);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted()) {
+            $mapOption = $form->getData();
+            $mapOptionService->saveMapOption($mapOption);
+
+            return $this->redirectToRoute('admin_mapOptions');
+        }
+
+        return $this->render('map_option/edit.html.twig', [
+            'controller_name' => 'MapOptionController',
+            'form' => $form->createView(),
+        ]);
+    }
 }

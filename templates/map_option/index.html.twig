@@ -6,7 +6,7 @@
     <div class="container">
         <table class="table">
             <thead>
-                <th scope="col">Tag</th>
+                <th scope="col">Map Option</th>
                 <th scope="col">Action</th>
             </thead>
             <tbody>
@@ -16,7 +16,7 @@
                     {{ mapOption.name }}
                 </td>
                 <td>
-                    <a href="{{ path('admin_tag_edit', {'id': mapOption.id}) }}" class="btn btn-info">Edit</a>
+                    <a href="{{ path('admin_mapOption_edit', {'id': mapOption.id}) }}" class="btn btn-info">Edit</a>
                 </td>
                 {% endfor %}
             </tbody>
