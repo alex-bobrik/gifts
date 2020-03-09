@@ -6,6 +6,7 @@ use App\Entity\Tag;
 use App\Form\Item\TagType;
 use App\Service\TagService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -79,11 +80,14 @@ class TagController extends AbstractController
 
     /**
      * @Route("/admin/tags/delete/{id}", name="admin_tag_delete")
+     * @param TagService $tagService
+     * @param int $id
+     * @return Response
      */
-    public function deleteTag()
+    public function deleteTag(TagService $tagService, int $id)
     {
-        return $this->render('tag/index.html.twig', [
-            'controller_name' => 'TagController',
-        ]);
+        $tagService->deleteTagById($id);
+
+        return $this->redirectToRoute('admin_tags');
     }
 }

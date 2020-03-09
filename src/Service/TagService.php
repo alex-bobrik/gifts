@@ -21,4 +21,12 @@ class TagService
         $this->em->persist($tag);
         $this->em->flush();
     }
+
+    public function deleteTagById(int $id)
+    {
+        $tag = $this->em->getRepository(Tag::class)->find($id);
+
+        $this->em->remove($tag);
+        $this->em->flush();
+    }
 }
