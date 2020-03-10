@@ -3,18 +3,22 @@
 {% block title %}Hello TagKindController!{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+    <table>
+        <thead>
+            <th scope="col">Tag kind</th>
+            <th scope="col">Action</th>
+        </thead>
+        <tbody>
+        {% for kind in tagKinds %}
+            <tr>
+                <td>{{ kind.name }}</td>
+                <td>
+{#                    <a href="{{ path('DELETE') }}" class="btn btn-danger">Delete</a>#}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ '/var/www/gifts/src/Controller/TagKindController.php'|file_link(0) }}">src/Controller/TagKindController.php</a></code></li>
-        <li>Your template at <code><a href="{{ '/var/www/gifts/templates/tag_kind/index.html.twig'|file_link(0) }}">templates/tag_kind/index.html.twig</a></code></li>
-    </ul>
-</div>
 {% endblock %}

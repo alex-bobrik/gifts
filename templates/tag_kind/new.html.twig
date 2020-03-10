@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello TagKindController!{% endblock %}
+
+{% block body %}
+
+    {{ form_start(form) }}
+
+        {{ form_widget(form.name) }}
+        <input type="submit" class="btn btn-primary" value="Submit">
+
+    {{ form_end(form) }}
+
+{% endblock %}
