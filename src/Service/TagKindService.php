@@ -23,4 +23,12 @@ class TagKindService
 
     }
 
+    public function deleteTagKindById(int $id)
+    {
+        $tagKind = $this->em->getRepository(TagKind::class)->find($id);
+
+        $this->em->remove($tagKind);
+        $this->em->flush();
+    }
+
 }

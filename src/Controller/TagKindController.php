@@ -7,6 +7,7 @@ use App\Form\TagKindType;
 use App\Service\TagKindService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class TagKindController extends AbstractController
@@ -28,7 +29,7 @@ class TagKindController extends AbstractController
      * @Route("/admin/tag-kind/new", name="admin_tagKind_new")
      * @param Request $request
      * @param TagKindService $kindService
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
     public function newTagKind(Request $request, TagKindService $kindService)
     {
@@ -48,5 +49,18 @@ class TagKindController extends AbstractController
             'controller_name' => 'TagKindController',
             'form' => $form->createView(),
         ]);
+    }
+
+    /**
+     * @Route("/admin/tag-kind/delete/{id}", name="admin_tagKind_delete")
+     * @param TagKindService $kindService
+     * @param int $id
+     * @return Response
+     */
+    public function deleteTagKind(TagKindService $kindService, int $id)
+    {
+        $kindService->deleteTagKindById($id);
+
+        return $this->redirectToRoute('admin_tagKind');
     }
 }

@@ -14,7 +14,7 @@
             <tr>
                 <td>{{ kind.name }}</td>
                 <td>
-{#                    <a href="{{ path('DELETE') }}" class="btn btn-danger">Delete</a>#}
+                    <a href="{{ path('admin_tagKind_delete', {'id': kind.id}) }}" class="btn btn-danger">Delete</a>
                 </td>
             </tr>
         {% endfor %}
