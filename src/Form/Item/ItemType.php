@@ -34,17 +34,6 @@ class ItemType extends AbstractType
                 'required' => true,
                 'label' => false,
             ])
-//            ->add('mapOption', CollectionType::class, [
-//                'entry_type' => MapOptionType::class,
-//                'entry_options' => ['label' => false],
-//                'allow_add' => true,
-//                'allow_delete' => true,
-//                'prototype' => true,
-//                'data_class' => null,
-//                'by_reference' => false,
-//                'required' => true,
-////                'label' => false,
-//            ])
             ->add('mapOption', EntityType::class, [
                 'class' => MapOption::class,
                 'choice_label' => 'name',
