@@ -33,6 +33,11 @@ class Tag
      */
     private $itemTags;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\TagKind", inversedBy="tags")
+     */
+    private $tagKind;
+
     public function __construct()
     {
 //        $this->items = new ArrayCollection();
@@ -111,6 +116,18 @@ class Tag
                 $itemTag->setTag(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getTagKind(): ?TagKind
+    {
+        return $this->tagKind;
+    }
+
+    public function setTagKind(?TagKind $tagKind): self
+    {
+        $this->tagKind = $tagKind;
 
         return $this;
     }
