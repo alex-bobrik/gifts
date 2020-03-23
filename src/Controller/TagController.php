@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Tag;
 use App\Form\Item\TagType;
 use App\Service\TagService;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -58,7 +59,7 @@ class TagController extends AbstractController
      * @param int $id
      * @return Response
      */
-    public function editTag(Request $request, TagService $tagService, int $id)
+    public function editTag(Request $request, TagService $tagService, int $id, EntityManagerInterface $em)
     {
         $tag = $this->getDoctrine()->getRepository(Tag::class)->find($id);
 
@@ -67,7 +68,10 @@ class TagController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted()) {
             $tag = $form->getData();
-            $tagService->saveTag($tag);
+//            $tagService->saveTag($tag);
+
+            $em->persist($tag);
+            $em->flush();
 
             return $this->redirectToRoute('admin_tags');
         }

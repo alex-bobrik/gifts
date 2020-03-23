@@ -4,6 +4,34 @@
 
 {% block body %}
 
-  {{ result }}
+  <div class="container">
+    <table>
+      <thead>
+        <tr>
+          <th scope="col">Item</th>
+          <th scope="col">Description</th>
+          <th scope="col">Tags</th>
+          <th scope="col">Map option</th>
+        </tr>
+      </thead>
+      
+      <tbody>
+      {% for item in items %}
+        <tr>
+          <td>{{ item.name }}</td>
+          <td>{{ item.description }}</td>
+          <td>
+            {% for itemTag in item.itemTags %}
+              {{ itemTag.tag.name }}
+            {% endfor %}
+          </td>
+          <td>
+            <a href="{{ path('find_map', {'id': item.mapOption.id}) }}">Искать на карте</a>
+          </td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
 
 {% endblock %}

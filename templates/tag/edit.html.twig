@@ -5,16 +5,23 @@
 {% block body %}
 
    <div class="container">
-       {{ form_start(form) }}
-         <div>
-            {{ form_widget(form.name, {
-                'attr': {'class': 'form-control'}
-            }) }}
-         </div>
-         <div>
-            <input class="btn btn-primary" value="Submit" type="submit">
-         </div>
-       {{ form_end(form) }}
+{#       {{ form_start(form) }}#}
+{#         <div>#}
+{#            {{ form_widget(form.name, {#}
+{#                'attr': {'class': 'form-control'}#}
+{#            }) }}#}
+{#         </div>#}
+{#       <div>#}
+{#           {{ form_widget(form.tagKind, {#}
+{#               'attr': {'class': 'form-control'}#}
+{#           }) }}#}
+{#       </div>#}
+{#         <div>#}
+{#            <input class="btn btn-primary" value="Submit" type="submit">#}
+{#         </div>#}
+{#       {{ form_end(form) }}#}
+
+      {{ form(form) }}
    </div>
 
 {% endblock %}

@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Entity\Item;
+use App\Entity\MapOption;
 use App\Entity\TagKind;
 use App\Form\FindType;
 use App\Service\ItemService;
@@ -36,6 +38,19 @@ class FindController extends AbstractController
         return $this->render('find/index.html.twig', [
             'controller_name' => 'FindController',
             'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/find/map/{id}", name="find_map", requirements={"id"="\d+"})
+     */
+    public function showItemOnMap(int $id)
+    {
+        $mapOption = $this->getDoctrine()->getRepository(MapOption::class)->find($id);
+
+        return $this->render('find/map.html.twig', [
+            'controller_name' => 'FindController',
+            'mapOption' => $mapOption,
         ]);
     }
 }

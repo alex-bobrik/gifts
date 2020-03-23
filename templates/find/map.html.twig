@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello FindController!{% endblock %}
+
+{% block body %}
+
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU&amp;apikey=2715ac98-2f61-4a89-9a0e-a4de43343c72" type="text/javascript"></script>
+
+        <script type="text/javascript">
+            function init() {
+                var myMap = new ymaps.Map('map', {
+                    center: [53.89, 27.56],
+                    zoom: 13,
+                    controls: []
+                });
+
+                var searchControl = new ymaps.control.SearchControl({
+                    options: {
+                        provider: 'yandex#search'
+                    }
+                });
+
+                myMap.controls.add(searchControl);
+
+                searchControl.search('{{ mapOption.name }}');
+            }
+
+            ymaps.ready(init);
+        </script>
+        <style>
+            html, body, #map {
+                width: 1000px; height: 500px; padding: 0; margin: 0;
+            }
+        </style>
+    <div id="map"></div>
+
+{% endblock %}

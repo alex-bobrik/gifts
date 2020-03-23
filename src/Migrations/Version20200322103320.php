@@ -22,7 +22,7 @@ final class Version20200322103320 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('CREATE UNIQUE INDEX UNIQ_D5CB036F5E237E06 ON tag_kind (name)');
+//        $this->addSql('CREATE UNIQUE INDEX UNIQ_D5CB036F5E237E06 ON tag_kind (name)');
     }
 
     public function down(Schema $schema) : void

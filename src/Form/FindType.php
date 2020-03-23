@@ -26,6 +26,7 @@ class FindType extends AbstractType
     {
         $builder
             ->add('gender', EntityType::class, [
+                'label' => 'Пол',
                 'class' => Tag::class,
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('t')
@@ -40,6 +41,7 @@ class FindType extends AbstractType
                 'expanded' => true,
             ])
             ->add('holiday', EntityType::class, [
+                'label' => 'Событие/Праздник',
                 'class' => Tag::class,'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('t')
                         ->join('t.tagKind', 'tg', 'WITH', 't.tagKind = tg.id')
@@ -52,6 +54,7 @@ class FindType extends AbstractType
                 'expanded' => true,
             ])
             ->add('hobbies', EntityType::class, [
+                'label' => 'Хобби/Увлечения',
                 'class' => Tag::class,
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('t')
