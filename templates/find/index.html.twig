@@ -4,6 +4,9 @@
 
 {% block body %}
 
+    <a href="{{ path('admin_items_new') }}">Новый предмет</a>
+    <a href="{{ path('admin_items') }}">Все предметы</a>
+
     {{ form(form) }}
 
 {#    {% for tag in form.tags %}#}

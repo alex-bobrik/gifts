@@ -32,7 +32,6 @@ class FindController extends AbstractController
                 'controller_name' => 'FindController',
                 'items' => $items,
             ]);
-
         }
 
         return $this->render('find/index.html.twig', [
