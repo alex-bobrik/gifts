@@ -11,6 +11,7 @@
           <th scope="col">Item</th>
           <th scope="col">Description</th>
           <th scope="col">Tags</th>
+          <th scope="col">Order</th>
           <th scope="col">Map option</th>
         </tr>
       </thead>
@@ -24,6 +25,9 @@
             {% for itemTag in item.itemTags %}
               {{ itemTag.tag.name }}
             {% endfor %}
+          </td>
+          <td>
+            <a href="{{ path('order', {'id': item.id}) }}">Order</a>
           </td>
           <td>
             <a href="{{ path('find_map', {'id': item.mapOption.id}) }}">Искать на карте</a>

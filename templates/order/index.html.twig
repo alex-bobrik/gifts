@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello OrderController!{% endblock %}
+
+{% block body %}
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+
+
+
+    {{ form(form) }}
+
+    {# Delivery script #}
+    <script>
+        $("#order_is_delivery_0").prop('checked', true);
+    </script>
+
+    <script>
+        $(document).ready(function(){
+            // $('form input[type="radio"]').prop("disabled", true);
+            $("#order_is_delivery_1").click(function(){
+                $("#order_delivery_address").prop('disabled', true);
+                $("#order_delivery_address").val('');
+            });
+
+            $("#order_is_delivery_0").click(function(){
+                $("#order_delivery_address").prop('disabled', false);
+            });
+        });
+    </script>
+
+{% endblock %}

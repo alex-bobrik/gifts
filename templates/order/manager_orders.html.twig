@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello OrderController!{% endblock %}
+
+{% block body %}
+
+    {% for order in orders %}
+        <p>{{ order.fullName }}</p>
+        <a href="{{ path('manager_orders_info', {'id': order.id}) }}">Check</a>
+    {% endfor %}
+
+{% endblock %}

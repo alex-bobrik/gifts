@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello OrderController!{% endblock %}
+
+{% block body %}
+
+    <a href="{{ path('manager_orders_complete', {'id': order.id}) }}">Complete order</a>
+
+    <p>Kto: {{ order.fullName }}</p>
+    <p>Chto: {{ order.item.name }}</p>
+
+{% endblock %}

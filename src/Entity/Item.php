@@ -48,11 +48,17 @@ class Item
      */
     private $mapOption;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Orders", mappedBy="item")
+     */
+    private $orders;
+
     public function __construct()
     {
 //        $this->tags = new ArrayCollection();
 //        $this->mapOptions = new ArrayCollection();
         $this->itemTags = new ArrayCollection();
+        $this->orders = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -175,6 +181,37 @@ class Item
     public function setMapOption(?MapOption $mapOption): self
     {
         $this->mapOption = $mapOption;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Orders[]
+     */
+    public function getOrders(): Collection
+    {
+        return $this->orders;
+    }
+
+    public function addOrder(Orders $order): self
+    {
+        if (!$this->orders->contains($order)) {
+            $this->orders[] = $order;
+            $order->setItem($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOrder(Orders $order): self
+    {
+        if ($this->orders->contains($order)) {
+            $this->orders->removeElement($order);
+            // set the owning side to null (unless already changed)
+            if ($order->getItem() === $this) {
+                $order->setItem(null);
+            }
+        }
 
         return $this;
     }
