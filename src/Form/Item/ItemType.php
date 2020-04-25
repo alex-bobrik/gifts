@@ -9,12 +9,14 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\SubmitButton;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\File;
 
 class ItemType extends AbstractType
 {
@@ -23,6 +25,23 @@ class ItemType extends AbstractType
         $builder
             ->add('name', TextType::class)
             ->add('description', TextareaType::class)
+            ->add('image', FileType::class, [
+                'label' => false,
+                'attr' => [
+                    'accept' => "image/jpeg, image/png",
+                ],
+                'constraints' => [
+                    new File([
+                        'maxSize' => '1M',
+                        'maxSizeMessage' => 'Макимальный размер изображения 1Мб',
+                        'mimeTypes' => [
+                            'image/jpeg',
+                            'image/png',
+                        ],
+                        'mimeTypesMessage' => 'Загрузите изображение формата JPEG или PNG.',
+                    ])
+                ]
+            ])
             ->add('itemTags', CollectionType::class, [
                 'entry_type' => ItemTagType::class,
                 'entry_options' => ['label' => false],

@@ -24,6 +24,9 @@
                         <div class="item-description">
                             {{ item.description }}
                         </div>
+                        <div class="item-image">
+                            <img src="{{ asset('images/items/' ~ item.image) }}" alt="image" width="100px" height="100px">
+                        </div>
                     </div>
                 </div>
             {% endfor %}

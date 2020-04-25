@@ -21,6 +21,12 @@
                 </div>
 
                 <div>
+                    {{ form_row(form.image, {
+                        'label': false,
+                    }) }}
+                </div>
+
+                <div>
                     {{ form_row(form.description, {
                         'label': false,
                         'attr': {'class': 'form-control',
