@@ -49,7 +49,11 @@
         <div class="order-item col-md-4">
             <div class="item" style="display: flex;">
                 <div class="item-image">
-                    <img src="{{ asset('images/items/' ~ order.item.image) }}" alt="image" width="100px" height="100px" style="margin-right: 10px">
+                    {% if order.item.image %}
+                        <img src="{{ asset('images/items/' ~ order.item.image) }}" alt="image" width="100px" height="100px" style="margin-right: 10px">
+                    {% else %}
+                        <img src="{{ asset('images/gift.jpg') }}" alt="image" width="100px" height="100px" style="margin-right: 10px">
+                    {% endif %}
                 </div>
                 <div class="item-info">
                     <h4>{{ order.item.name }}</h4>

@@ -48,7 +48,6 @@
             <thead>
                 <tr>
                     <th scope="col"></th>
-{#                    <th scope="col">Название подарка</th>#}
                     <th scope="col">{{ knp_pagination_sortable(items, 'Название подарка', ['i.name']) }}</th>
                     <th scope="col">Описание</th>
                     <th scope="col">Теги</th>
@@ -60,7 +59,11 @@
             {% for item in items %}
                 <tr>
                     <td>
-                        <img src="{{ asset('images/items/' ~ item.image) }}" alt="image" width="200px" height="200px">
+                        {% if item.image %}
+                            <img src="{{ asset('images/items/' ~ item.image) }}" alt="image" width="200px" height="200px">
+                        {% else %}
+                            <img src="{{ asset('images/gift.jpg') }}" alt="image" width="200px" height="200px">
+                        {% endif %}
                     </td>
                     <td>
                         {{ item.name }}
