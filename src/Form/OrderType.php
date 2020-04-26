@@ -21,15 +21,25 @@ class OrderType extends AbstractType
 //            ->add('order_date')
 //            ->add('item')
             ->add('fullName', TextType::class, [
-                'label' => 'FIO',
+                'label' => 'ФИО',
+                'attr' => [
+                    'class' => 'form-control',
+                ]
             ])
             ->add('phone_num', TextType::class, [
-                'label' => 'Phone',
+                'label' => 'Номер телефона',
+                'attr' => [
+                    'class' => 'form-control',
+                ]
             ])
             ->add('email', TextType::class, [
                 'label' => 'Email',
+                'attr' => [
+                    'class' => 'form-control',
+                ]
             ])
             ->add('is_delivery', ChoiceType::class, [
+                'label' => 'Тип доставки',
                 'choices' => [
                     'Доставка' => true,
                     'Самовывоз' => false,
@@ -37,17 +47,25 @@ class OrderType extends AbstractType
                 'expanded' => true,
                 'multiple' => false,
             ])
+            // active if checkbox checked
             ->add('delivery_address', TextType::class, [
-                // active if checkbox checked
+                'label' => 'Адрес доставки',
+                'attr' => [
+                    'class' => 'form-control',
+                ]
             ])
             ->add('order_kind', EntityType::class, [
+                'label' => 'Вид оплаты',
                 'class' => OrderKind::class,
                 'choice_label' => 'name',
                 'expanded' => true,
                 'multiple' => false,
             ])
             ->add('submit', SubmitType::class, [
-                'label' => 'Orders this!',
+                'label' => 'Заказать!',
+                'attr' => [
+                    'class' => 'btn btn-success',
+                ]
             ])
         ;
     }

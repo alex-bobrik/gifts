@@ -4,8 +4,32 @@
 
 {% block body %}
 
-    <h1>Order success!</h1>
-    <h2>Return to list of <a href="{{ path('find') }}">gifts</a></h2>
+    <style>
+
+        body {
+            background: url("{{ asset('images/bg.jpg') }}") no-repeat;
+            background-size: cover;
+        }
+
+        .success-order {
+            text-align: center;
+            position: absolute;
+            top: 50%;
+            left: 25%;
+            margin-top: -50px;
+            margin-left: -50px;
+            width: 1000px;
+            border-radius: 30px;
+            border: 1px black dashed;
+            padding: 5px;
+        }
+    </style>
+
+    <div class="success-order">
+        <h1>Спасибо за заказ!</h1>
+        <h4>Ожидайте связи с нашим менеджером</h4>
+        <a href="{{ path('find') }}">Вернуться на главную</a>
+    </div>
 
 
 {% endblock %}

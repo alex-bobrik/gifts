@@ -5,9 +5,139 @@
 {% block body %}
     <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 
+    <style>
+        .order {
+            margin-top: 50px;
+            background-color: #FFFFFF;
+            border-radius: 5px;
+            padding: 20px;
+            box-shadow: 0 0 10px 0 rgba(0,0,0,0.5);
+
+        }
+
+        body {
+            background: url("{{ asset('images/bg_find.jpg') }}");
+        }
+
+        .gift {
+            display: flex;
+            /*border: 1px black solid;*/
+            border-radius: 50px;
+            margin: 25px;
+            padding: 20px;
+            box-shadow: 0 0 10px 0 rgba(0,0,0,0.5);
+            background: #ffffff;
+            opacity: 0.96;
+        }
+
+        .image {
+            width: 200px;
+            height: 200px;
+            border-radius: 100px;
+            border: 1px dashed black;
+        }
+
+        .gift-image {
+            margin-right: 40px;
+        }
+
+        .gift-tags {
+            display: flex;
+            margin-bottom: 30px;
+        }
+
+        .tag {
+            border: 1px solid black;
+            border-radius: 20px;
+            margin-right: 5px;
+            padding: 5px;
+        }
+
+        button[type="submit"] {
+            width: 100%;
+        }
+
+        .delivery-type {
+            display: flex;
+        }
+
+        .delivery-type-item {
+            margin-right: 10px;
+        }
+
+        .order-kind {
+            display: flex;
+        }
+
+        .order-kind-item {
+            margin-right: 10px;
+        }
+
+        .header-text {
+            margin-top: 10px;
+        }
+    </style>
 
 
-    {{ form(form) }}
+    <div class="container">
+        <div class="gift">
+            <div class="gift-image">
+                {% if item.image %}
+                    <img src="{{ asset('images/items/' ~ item.image) }}" alt="image" class="image">
+                {% else %}
+                    <img src="{{ asset('images/gift.jpg') }}" alt="image" class="image">
+                {% endif %}
+            </div>
+            <div class="gift-info">
+                <div class="gift-name">
+                    <h4>{{ item.name }}</h4>
+                </div>
+                <hr>
+                <div class="gift-description">
+                    <p class="text-justify">{{ item.description }}</p>
+                </div>
+                <div class="gift-tags">
+                    {% for itemTag in item.itemTags %}
+                        <div class="tag">#{{ itemTag.tag.name }}</div>
+                    {% endfor %}
+                </div>
+
+            </div>
+        </div>
+
+        <div class="order">
+            {{ form_start(form) }}
+
+            {{ form_row(form.fullName) }}
+            {{ form_row(form.phone_num) }}
+            {{ form_row(form.email) }}
+            <p class="header-text">Тип доставки</p>
+            <div class="delivery-type">
+                {% for type in form.is_delivery %}
+                    <div class="delivery-type-item">
+                        {{ form_widget(type) }}
+                        {{ form_label(type) }}
+                    </div>
+                {% endfor %}
+            </div>
+
+            {{ form_row(form.delivery_address) }}
+{#            {{ form_row(form.order_kind) }}#}
+            <p class="header-text">Вид оплаты</p>
+            <div class="order-kind">
+                {% for kind in form.order_kind %}
+                    <div class="order-kind-item">
+                        {{ form_widget(kind) }}
+                        {{ form_label(kind) }}
+                    </div>
+                {% endfor %}
+            </div>
+
+            {{ form_end(form) }}
+        </div>
+    </div>
+
+
 
     {# Delivery script #}
     <script>
