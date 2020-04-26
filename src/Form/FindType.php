@@ -39,6 +39,10 @@ class FindType extends AbstractType
                 'mapped' => true,
                 'multiple' => true,
                 'expanded' => true,
+                'attr' => [
+                    'class' => 'gender'
+                ],
+
             ])
             ->add('holiday', EntityType::class, [
                 'label' => 'Событие/Праздник',
@@ -68,19 +72,11 @@ class FindType extends AbstractType
                 'multiple' => true,
                 'expanded' => true,
             ])
-//            ->add('tags', CollectionType::class, [
-//                'entry_type' => TagKindType::class,
-//                'entry_options' => ['label' => false],
-//                'allow_add' => true,
-//                'allow_delete' => true,
-//                'prototype' => true,
-//                'data_class' => null,
-//                'by_reference' => false,
-//                'required' => true,
-//                'label' => false,
-//            ])
             ->add('submit', SubmitType::class, [
-                'label' => 'Find',
+                'label' => 'Искать!',
+                'attr' => [
+                    'class' => 'btn btn-success',
+                ]
             ])
         ;
     }

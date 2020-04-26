@@ -4,10 +4,242 @@
 
 {% block body %}
 
-    <a href="{{ path('admin_items_new') }}">Новый предмет</a>
-    <a href="{{ path('admin_items') }}">Все предметы</a>
+{#    <a href="{{ path('admin_items_new') }}">Новый предмет</a>#}
+{#    <a href="{{ path('admin_items') }}">Все предметы</a>#}
 
-    {{ form(form) }}
+    <style>
+
+        input[type="checkbox"]:checked,
+        input[type="checkbox"]:not(:checked)
+        /*input[type="radio"]:checked,*/
+        /*input[type="radio"]:not(:checked)*/
+        {
+            position: absolute;
+            left: -9999px;
+        }
+
+        input[type="checkbox"]:checked + label,
+        input[type="checkbox"]:not(:checked) + label {
+        /*input[type="radio"]:checked + label,*/
+        /*input[type="radio"]:not(:checked) + label {*/
+            display: inline-block;
+            position: relative;
+            padding-left: 28px;
+            line-height: 20px;
+            cursor: pointer;
+        }
+
+        input[type="checkbox"]:checked + label:before,
+        input[type="checkbox"]:not(:checked) + label:before {
+        /*input[type="radio"]:checked + label:before,*/
+        /*input[type="radio"]:not(:checked) + label:before {*/
+            content: "";
+            position: absolute;
+            left: 0px;
+            top: 0px;
+            width: 18px;
+            height: 18px;
+            border: 1px solid #dddddd;
+            background-color: #ffffff;
+        }
+
+        input[type="checkbox"]:checked + label:before,
+        input[type="checkbox"]:not(:checked) + label:before {
+            border-radius: 2px;
+        }
+
+        /*input[type="radio"]:checked + label:before,*/
+        /*input[type="radio"]:not(:checked) + label:before {*/
+        /*    border-radius: 100%;*/
+        /*}*/
+
+        input[type="checkbox"]:checked + label:after,
+        input[type="checkbox"]:not(:checked) + label:after {
+        /*input[type="radio"]:checked + label:after,*/
+        /*input[type="radio"]:not(:checked) + label:after {*/
+            content: "";
+            position: absolute;
+            -webkit-transition: all 0.2s ease;
+            -moz-transition: all 0.2s ease;
+            -o-transition: all 0.2s ease;
+            transition: all 0.2s ease;
+        }
+
+        input[type="checkbox"]:checked + label:after,
+        input[type="checkbox"]:not(:checked) + label:after {
+            left: 3px;
+            /*top: 4px;*/
+            width: 15px;
+            height: 8px;
+            border-radius: 20px;
+            border-left: 4px solid green;
+            border-bottom: 4px solid green;
+            -webkit-transform: rotate(-45deg);
+            -moz-transform: rotate(-45deg);
+            -o-transform: rotate(-45deg);
+            -ms-transform: rotate(-45deg);
+            transform: rotate(-45deg);
+        }
+
+        /*input[type="radio"]:checked + label:after,*/
+        /*input[type="radio"]:not(:checked) + label:after {*/
+        /*    left: 5px;*/
+        /*    top: 5px;*/
+        /*    width: 10px;*/
+        /*    height: 10px;*/
+        /*    border-radius: 100%;*/
+        /*    background-color: #e145a3;*/
+        /*}*/
+
+        input[type="checkbox"]:not(:checked) + label:after {
+        /*input[type="radio"]:not(:checked) + label:after {*/
+            opacity: 0;
+        }
+
+        input[type="checkbox"]:checked + label:after {
+        /*input[type="radio"]:checked + label:after {*/
+            opacity: 1;
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+        body {
+            /*background: url("") no-repeat;*/
+            background-image: url("{{ asset('images/bg.jpg') }}");
+            /*background-repeat: no-repeat;*/
+            /*height: 100%;*/
+
+            /* Center and scale the image nicely */
+            /*background-position: center;*/
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: top;
+        }
+
+
+        .content {
+            font-size: 20px;
+            margin-top: 100px;
+            /*width: 80%;*/
+        }
+
+        .find-button {
+            height: 100px;
+            width: 300px;
+            text-align: center;
+            margin-top: 50px;
+            margin-left: 35%;
+        }
+
+        .find-button button{
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            font-variant: all-small-caps;
+            font-size: 40px;
+
+        }
+
+        input[type="checkbox"] {
+            /*transform: scale(5);*/
+        }
+        .list {
+            margin-bottom: 40px;
+        }
+
+        .header {
+            margin-bottom: 50px;
+            -webkit-text-stroke: 1px whitesmoke;
+        }
+        .content {
+
+
+        }
+
+    </style>
+
+    <div class="container">
+
+        <div class="content">
+
+            <div class="header text-center">
+                <h1>Выберите подарок по душе :)</h1>
+            </div>
+            {{ form_start(form) }}
+
+            <div class="row">
+
+                <div class="col-md-4">
+                    <div class="list">
+                        <p style="-webkit-text-stroke: 1px black">Кому</p>
+                        <hr>
+                        {% for gender in form.gender %}
+                            <div class="gender-item roundedTwo">
+                                {{ form_widget(gender) }}
+                                {{ form_label(gender) }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+
+                <div class="col-md-4">
+                    <div class="list">
+                        <p style="-webkit-text-stroke: 1px black">Праздник/Событие</p>
+                        <hr>
+                        {% for holiday in form.holiday %}
+                            <div class="holiday-item">
+                                {{ form_widget(holiday) }}
+                                {{ form_label(holiday) }}
+                            </div>
+                        {% endfor %}
+                    </div>
+
+
+                </div>
+
+
+                <div class="col-md-4">
+                    <div class="list">
+                        <p style="-webkit-text-stroke: 1px black">Хобби/Увлечения</p>
+                        <hr>
+                        {% for hobbies in form.hobbies %}
+                            <div class="hobbies-item">
+                                {{ form_widget(hobbies) }}
+                                {{ form_label(hobbies) }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+            </div>
+
+
+            <hr>
+
+
+            <div class="find-button">
+                {{ form_widget(form.submit) }}
+            </div>
+
+
+            {{ form_end(form) }}
+
+        </div>
+
+
+
+    </div>
+
 
 {#    {% for tag in form.tags %}#}
 {#        {{ form_row(tag.name) }}#}
