@@ -6,15 +6,19 @@ use App\Entity\Item;
 use App\Entity\MapOption;
 use App\Entity\Tag;
 use App\Form\Item\ItemType;
+use App\Form\SearchType;
 use App\Service\ItemService;
+use Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\RouterInterface;
 
 class ItemController extends AbstractController
 {
@@ -23,31 +27,60 @@ class ItemController extends AbstractController
      * @param Request $request
      * @return RedirectResponse|Response
      */
-    public function index()
+    public function index(PaginatorInterface $paginator, Request $request, RouterInterface $router)
     {
-        $items = $this->getDoctrine()->getRepository(Item::class)->findAll();
+
+        $itemsRepo = $this->getDoctrine()->getRepository(Item::class);
+        $q = $request->get('s');
+
+
+        if ($q) {
+            $itemQuery = $itemsRepo->createQueryBuilder('i')
+                ->select('i')
+                ->where('i.name like :name')
+                ->setParameter('name', '%'.$q.'%')
+                ->getQuery();
+        } else {
+            $itemQuery = $itemsRepo->createQueryBuilder('i')
+                ->getQuery();
+        }
+
+        $form = $this->createForm(SearchType::class, ['query' => $q]);
+        $form->handleRequest($request);
+        if ($form->isSubmitted()) {
+            $search = $form->get('query')->getData();
+
+            return new RedirectResponse($router->generate('admin_items', ['s' => $search]));
+        }
+
+        $items = $paginator->paginate(
+            $itemQuery,
+            $request->query->getInt('page', 1),
+            7
+        );
 
         return $this->render('item/index.html.twig', [
             'controller_name' => 'ItemController',
             'items' => $items,
+            'form' => $form->createView(),
         ]);
     }
 
-    /**
-     * @Route("/admin/items/{id}", name="admin_item_info", requirements={"id"="\d+"})
-     * @param int $id
-     * @return RedirectResponse|Response
-     */
-    public function itemInfo(int $id)
-    {
-        /** @var Item $item */
-        $item = $this->getDoctrine()->getRepository(Item::class)->find($id);
-
-        return $this->render('item/info.html.twig', [
-            'controller_name' => 'ItemController',
-            'item' => $item,
-        ]);
-    }
+//    /**
+//     * @Route("/admin/items/{id}", name="admin_item_info", requirements={"id"="\d+"})
+//     * @param int $id
+//     * @return RedirectResponse|Response
+//     */
+//    public function itemInfo(int $id)
+//    {
+//        /** @var Item $item */
+//        $item = $this->getDoctrine()->getRepository(Item::class)->find($id);
+//
+//        return $this->render('item/info.html.twig', [
+//            'controller_name' => 'ItemController',
+//            'item' => $item,
+//        ]);
+//    }
 
     /**
      * @Route("/admin/items/new", name="admin_items_new")
@@ -80,7 +113,7 @@ class ItemController extends AbstractController
 
             $itemService->saveItem($item);
 
-            return $this->redirectToRoute('admin_item_info', ['id' => $item->getId()]);
+            return $this->redirectToRoute('admin_items');
         }
 
         return $this->render('item/new.html.twig', [
@@ -122,9 +155,19 @@ class ItemController extends AbstractController
      * @param int $id
      * @return Response
      */
-    public function deleteItem(ItemService $itemService, int $id)
+    public function deleteItem(ItemService $itemService, int $id, EntityManagerInterface $em)
     {
-        $itemService->deleteItemById($id);
+        $item = $this->getDoctrine()->getRepository(Item::class)->find($id);
+
+        try {
+            $em->remove($item);
+            $em->flush();
+        } catch (ForeignKeyConstraintViolationException $ex) {
+            $this->addFlash('danger', 'Нельзя удалить подарок, есть связи');
+        }
+
+
+//        $itemService->deleteItemById($id);
         return $this->redirectToRoute('admin_items');
     }
 }

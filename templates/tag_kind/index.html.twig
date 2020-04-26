@@ -7,14 +7,14 @@
     <table>
         <thead>
             <th scope="col">Tag kind</th>
-            <th scope="col">Action</th>
+{#            <th scope="col">Action</th>#}
         </thead>
         <tbody>
         {% for kind in tagKinds %}
             <tr>
                 <td>{{ kind.name }}</td>
                 <td>
-                    <a href="{{ path('admin_tagKind_delete', {'id': kind.id}) }}" class="btn btn-danger">Delete</a>
+{#                    <a href="{{ path('admin_tagKind_delete', {'id': kind.id}) }}" class="btn btn-danger">Delete</a>#}
                 </td>
             </tr>
         {% endfor %}

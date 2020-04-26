@@ -4,26 +4,62 @@ namespace App\Controller;
 
 use App\Entity\Tag;
 use App\Form\Item\TagType;
+use App\Form\SearchType;
 use App\Service\TagService;
+use Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\RouterInterface;
 
 class TagController extends AbstractController
 {
     /**
      * @Route("/admin/tags", name="admin_tags")
      */
-    public function index()
+    public function index(PaginatorInterface $paginator, Request $request, RouterInterface $router)
     {
-        $tags = $this->getDoctrine()->getRepository(Tag::class)->findAll();
+//        $tags = $this->getDoctrine()->getRepository(Tag::class)->findAll();
+
+        $tagsRepo = $this->getDoctrine()->getRepository(Tag::class);
+
+        $q = $request->get('s');
+
+        if ($q) {
+            $tagsQuery = $tagsRepo->createQueryBuilder('t')
+                ->select('t')
+                ->where('t.name like :name')
+                ->setParameter('name', '%'.$q.'%')
+                ->getQuery();
+        } else {
+            $tagsQuery = $tagsRepo->createQueryBuilder('t')
+                ->getQuery();
+        }
+
+        $form = $this->createForm(SearchType::class, ['query' => $q]);
+        $form->handleRequest($request);
+        if ($form->isSubmitted()) {
+            $search = $form->get('query')->getData();
+
+            return new RedirectResponse($router->generate('admin_tags', ['s' => $search]));
+        }
+
+        $tags = $paginator->paginate(
+            $tagsQuery,
+            $request->query->getInt('page', 1),
+            10
+        );
+
+        //limit 10
 
         return $this->render('tag/index.html.twig', [
             'controller_name' => 'TagController',
             'tags' => $tags,
+            'form' => $form->createView(),
         ]);
     }
 
@@ -41,6 +77,18 @@ class TagController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted()) {
             $tag = $form->getData();
+
+            if
+            (
+                $tag->getName() ==
+                $this->getDoctrine()->getRepository(Tag::class)->findOneBy(['name' => $tag->getName()])->getName()
+            )
+            {
+                $this->addFlash('danger','Тег с таким названием уже существует');
+
+                return $this->redirectToRoute('admin_tag_new');
+            }
+
             $tagService->saveTag($tag);
 
             return $this->redirectToRoute('admin_tags');
@@ -68,7 +116,6 @@ class TagController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted()) {
             $tag = $form->getData();
-//            $tagService->saveTag($tag);
 
             $em->persist($tag);
             $em->flush();
@@ -88,9 +135,21 @@ class TagController extends AbstractController
      * @param int $id
      * @return Response
      */
-    public function deleteTag(TagService $tagService, int $id)
+    public function deleteTag(TagService $tagService, int $id, EntityManagerInterface $em)
     {
-        $tagService->deleteTagById($id);
+        $tag = $this->getDoctrine()->getRepository(Tag::class)->find($id);
+
+        try {
+            $em->remove($tag);
+            $em->flush();
+        } catch (ForeignKeyConstraintViolationException $ex) {
+            $this->addFlash('danger', 'Нельзя удалить, есть связи с подарками');
+
+            return $this->redirectToRoute('admin_tags');
+        }
+
+        $this->addFlash('info', 'Тег удален');
+
 
         return $this->redirectToRoute('admin_tags');
     }

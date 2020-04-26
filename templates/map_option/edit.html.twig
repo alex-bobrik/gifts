@@ -1,18 +1,25 @@
-{% extends 'base.html.twig' %}
+{% extends 'administrator_base.html.twig' %}
 
 {% block title %}Hello MapOptionController!{% endblock %}
 
 {% block body %}
 
-    <div class="container">
+    <style>
+        input[type="submit"] {
+            margin-top: 10px;
+        }
+    </style>
+
+    <div class="container" style="margin-top: 30px">
         {{ form_start(form) }}
         <div>
-            {{ form_widget(form.name, {
+            {{ form_row(form.name, {
+                'label': 'Название метки на карте',
                 'attr': {'class': 'form-control'}
             }) }}
         </div>
         <div>
-            <input class="btn btn-primary" value="Submit" type="submit">
+            <input class="btn btn-primary" value="Сохранить" type="submit">
         </div>
         {{ form_end(form) }}
     </div>

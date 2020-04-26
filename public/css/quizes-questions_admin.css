@@ -25,16 +25,26 @@
     margin: 10px;
 }
 
+.answers-block div {
+    display: inline-block;
+    width: 100%;
+}
+
 .answer-box > div:first-child {
-    width: 80%;
+    width: 100%;
+}
+
+.answer-box > div:first-child > div:first-child {
+    width: 100%;
 }
 
 .add-answer-block {
     margin-top: 10px;
+    text-align: center;
 }
 
 .add-answer-block > button {
-    float: right;
+    /*float: right;*/
 }
 
 .submit-block {

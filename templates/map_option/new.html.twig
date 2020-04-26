@@ -1,18 +1,29 @@
-{% extends 'base.html.twig' %}
+{% extends 'administrator_base.html.twig' %}
 
 {% block title %}Hello MapOptionController!{% endblock %}
 
 {% block body %}
 
+    <style>
+        .input-text {
+            margin-top: 30px;
+        }
+
+        .input-submit {
+            margin-top: 10px;
+        }
+    </style>
+
     <div class="container">
         {{ form_start(form) }}
-        <div>
-            {{ form_widget(form.name, {
+        <div class="input-text">
+            {{ form_row(form.name, {
+                'label': 'Новая метка',
                 'attr': {'class': 'form-control'}
             }) }}
         </div>
-        <div>
-            <input class="btn btn-primary" value="Submit" type="submit">
+        <div class="input-submit">
+            <input class="btn btn-primary" value="Сохранить" type="submit">
         </div>
         {{ form_end(form) }}
     </div>

@@ -1,37 +1,52 @@
-{% extends 'base.html.twig' %}
+{% extends 'administrator_base.html.twig' %}
 
 {% block title %}Hello ItemController!{% endblock %}
 
 {% block body %}
+    <style>
+        .item-image {
+            margin-bottom: 30px;
+            /*margin-top: 30px;*/
+            display: table-caption;
+        }
+
+        .item-mapOption {
+            /*margin-top: 20px;*/
+        }
+    </style>
+
     {{ form_start(form) }}
 
     <div class="container">
-        <div class="buttons-header">
-            <a href="{{ path('admin_items') }}" class="btn btn-primary">New tag</a>
-        </div>
         <div class="question-block">
             <div>
+                <div class="item-image">
+                    {{ form_row(form.image, {
+                        'label': 'Изображение (рекомендуемый размер 200x200)',
+                    }) }}
+                </div>
                 <div>
                     {{ form_row(form.name, {
-                        'label': false,
+                        'label': 'Название подарка',
                         'attr': {'class': 'form-control',
-                            'placeholder': 'Item',
                         }
                     }) }}
                 </div>
 
-                <div>
-                    {{ form_row(form.image, {
-                        'label': false,
-                    }) }}
-                </div>
+
 
                 <div>
                     {{ form_row(form.description, {
-                        'label': false,
+                        'label': 'Описание',
                         'attr': {'class': 'form-control',
-                            'placeholder': 'Description',
                         }
+                    }) }}
+                </div>
+
+                <div class="item-mapOption">
+{#                    <label for="item[mapOption]">Метка на карте</label>#}
+                    {{ form_row(form.mapOption, {
+                        'label': 'Метка на карте',
                     }) }}
                 </div>
 
@@ -51,8 +66,8 @@
 
                         <div class="add-answer-block">
                             <button type="button"
-                                    class="add-another-collection-widget btn btn-info"
-                                    data-list-selector="#type-fields-list">Add tag
+                                    class="add-another-collection-widget btn btn-outline-primary"
+                                    data-list-selector="#type-fields-list">Добавить тег
                             </button>
                         </div>
                     </ul>
@@ -60,15 +75,13 @@
             </div>
         </div>
 
-        <div>
-            {{ form_widget(form.mapOption) }}
-        </div>
+
 
         <div class="submit-block">
             {{ form_widget(form.submit, {
-                'attr': {'class': 'btn btn-success'},
+                'label': 'Сохранить',
+                'attr': {'class': 'btn btn-primary'},
             }) }}
-{#            <a href="{{ path('admin_items') }}" class="btn btn-outline-dark">Back</a>#}
         </div>
     </div>
 

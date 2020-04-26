@@ -6,6 +6,7 @@ use App\Entity\Item;
 use App\Entity\Orders;
 use App\Form\OrderType;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -62,9 +63,22 @@ class OrderController extends AbstractController
     /**
      * @Route("/manager/orders", name="manager_orders")
      */
-    public function managerOrders()
+    public function managerOrders(PaginatorInterface $paginator, Request $request)
     {
         $orders = $this->getDoctrine()->getRepository(Orders::class)->findBy(['isComplete' => false]);
+
+        $ordersRepo = $this->getDoctrine()->getRepository(Orders::class);
+
+        $ordersQuery = $ordersRepo->createQueryBuilder('o')
+            ->select('o')
+            ->where('o.isComplete = false')
+            ->getQuery();
+
+        $orders = $paginator->paginate(
+            $ordersQuery,
+            $request->query->getInt('page', 1),
+            8
+        );
 
         return $this->render('order/manager_orders.html.twig', [
             'controller_name' => 'OrderController',
@@ -96,6 +110,24 @@ class OrderController extends AbstractController
 
         $order->setIsComplete(true);
         $em->flush();
+
+        $this->addFlash('info', 'Заказ обработан');
+
+        return $this->redirectToRoute('manager_orders');
+    }
+
+    /**
+     * @Route("/manager/orders/delete/{id}", name="manager_orders_delete", requirements={"id"="\d+"})
+     */
+    public function deleteOrder(int $id, EntityManagerInterface $em)
+    {
+        /** @var Orders $order */
+        $order = $this->getDoctrine()->getRepository(Orders::class)->find($id);
+
+        $em->remove($order);
+        $em->flush();
+
+        $this->addFlash('info', 'Заказ удален');
 
         return $this->redirectToRoute('manager_orders');
     }

@@ -18,11 +18,13 @@ class TagType extends AbstractType
     {
         $builder
             ->add('name', TextType::class, [
+                'label' => 'Название тега',
                 'attr' => [
                     'class' => 'form-control',
                 ]
             ])
             ->add('tagKind', EntityType::class, [
+                'label' => 'Область тега',
                 'class' => TagKind::class,
                 'choice_label' => function($tagKind) {
                     switch ($tagKind->getName()){
@@ -32,14 +34,18 @@ class TagType extends AbstractType
                         default: return 'error';
                     }
                 },
-//                'choice_label' => 'name',
                 'mapped' => true,
                 'multiple' => false,
                 'attr' => [
                     'class' => 'form-control',
                 ]
             ])
-            ->add('submit', SubmitType::class)
+            ->add('submit', SubmitType::class, [
+                'label' => 'Сохранить',
+                'attr' => [
+                    'class' => 'btn btn-primary',
+                ]
+            ])
         ;
     }
 

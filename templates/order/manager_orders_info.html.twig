@@ -1,12 +1,77 @@
-{% extends 'base.html.twig' %}
+{% extends 'manager_base.html.twig' %}
 
 {% block title %}Hello OrderController!{% endblock %}
 
 {% block body %}
 
-    <a href="{{ path('manager_orders_complete', {'id': order.id}) }}">Complete order</a>
+    <style>
+        .tags {
+            display: flex;
+        }
 
-    <p>Kto: {{ order.fullName }}</p>
-    <p>Chto: {{ order.item.name }}</p>
+        .tag {
+            border-radius: 30px;
+            padding: 5px;
+            border: 1px black solid;
+        }
+    </style>
+
+
+    <div class="container" style="margin-top: 30px">
+        <a href="{{ path('manager_orders_delete', {'id': order.id}) }}" class="btn btn-outline-danger" style="float: right; margin-top: 30px;">
+            Удалить заказ
+        </a>
+        <a href="{{ path('manager_orders_complete', {'id': order.id}) }}" class="btn btn-outline-success" style="float: right; margin-top: 30px;  margin-right: 30px">
+            Завершить заказ
+        </a>
+
+    <div class="order-header">
+        <h2>Заказ #{{ order.id }}</h2>
+        <h3>Дата заказа {{ order.orderDate.format('d.m.Y H:i:s') }}</h3>
+    </div>
+        <hr>
+        <div class="row" style="font-size: 18px">
+        <div class="order-data col-md-6">
+            <div class="order-info">
+                <p>ФИО: {{ order.fullName }}</p>
+                <p>Телефон: {{ order.phoneNum }}</p>
+                <p>Email: {{ order.email }}</p>
+            </div>
+            <div class="order-delivery">
+                {% if order.isDelivery %}
+                    Доставка: {{ order.deliveryAddress }}
+                {% else %}
+                    Самовывоз
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="order-item col-md-4">
+            <div class="item" style="display: flex;">
+                <div class="item-image">
+                    <img src="{{ asset('images/items/' ~ order.item.image) }}" alt="image" width="100px" height="100px" style="margin-right: 10px">
+                </div>
+                <div class="item-info">
+                    <h4>{{ order.item.name }}</h4>
+                    <p class="text-justify">
+                        {{ order.item.description }}
+                    </p>
+                    <p>
+                        Метка на карте: <a href="{{ path('find_map', {'id': order.item.mapOption.id }) }}">{{ order.item.mapOption.name }}</a>
+                    </p>
+                    <div class="tags">
+                        {% for tag in order.item.itemTags %}
+                            <div class="tag">
+                                #{{ tag.tag.name }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        </div>
+    </div>
+
 
 {% endblock %}

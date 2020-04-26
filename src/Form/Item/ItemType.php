@@ -24,7 +24,9 @@ class ItemType extends AbstractType
     {
         $builder
             ->add('name', TextType::class)
-            ->add('description', TextareaType::class)
+            ->add('description', TextareaType::class, [
+                'required' => false,
+            ])
             ->add('image', FileType::class, [
                 'label' => false,
                 'attr' => [

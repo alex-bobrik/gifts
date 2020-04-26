@@ -15,11 +15,12 @@ class ItemTagType extends AbstractType
     {
         $builder
             ->add('tag', EntityType::class, [
+                'label' => 'Тег',
                 'class' => Tag::class,
                 'choice_label' => 'name',
                 'mapped' => true,
                 'multiple' => false,
-                'attr' => ['class'=> 'form-control']
+                'attr' => ['class'=> 'form-control',]
             ])
         ;
     }

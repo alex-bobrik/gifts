@@ -1,36 +1,118 @@
-{% extends 'base.html.twig' %}
+{% extends 'administrator_base.html.twig' %}
 
 {% block title %}Hello ItemController!{% endblock %}
 
 {% block body %}
 
     <style>
-        .item {
-            border: #000000 1px solid;
+        .tag {
+            border-radius: 30px;
+            border: 1px black solid;
+            padding: 5px;
+            margin-bottom: 3px;
+        }
+
+        .search div{
+            display: inline-block;
+        }
+
+        .search-input input{
+            width: 100%;
+            margin-top: 10px;
         }
     </style>
 
     <div class="container">
         <div class="buttons-header">
-            <a href="{{ path('admin_items_new') }}" class="btn btn-primary">New item</a>
+            <a href="{{ path('admin_items_new') }}" class="btn btn-primary">Новый подарок</a>
         </div>
-        <div class="items">
+
+        <div class="search">
+            {{ form_start(form) }}
+            <div class="search-input">
+                {{ form_row(form.query, {
+                    'attr': {
+                        'placeholder': 'Поиск по названию',
+                    }
+                }) }}
+            </div>
+            <div class="search-submit">
+                {{ form_row(form.submit) }}
+
+            </div>
+            {{ form_end(form) }}
+        </div>
+
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col"></th>
+{#                    <th scope="col">Название подарка</th>#}
+                    <th scope="col">{{ knp_pagination_sortable(items, 'Название подарка', ['i.name']) }}</th>
+                    <th scope="col">Описание</th>
+                    <th scope="col">Теги</th>
+                    <th scope="col">Метка на карте</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
             {% for item in items %}
-                <div class="item">
-                    <div class="item-content">
-                        <div class="item-name">
-                            <a href="{{ path('admin_item_info', {'id': item.id}) }}">{{ item.name }}</a>
+                <tr>
+                    <td>
+                        <img src="{{ asset('images/items/' ~ item.image) }}" alt="image" width="200px" height="200px">
+                    </td>
+                    <td>
+                        {{ item.name }}
+                    </td>
+                    <td>
+                        {{ item.description }}
+                    </td>
+                    <td>
+                        <div class="tags">
+                            {% for itemTag in item.itemTags %}
+                                <div class="tag">
+                                    <a href="{{ path('admin_tag_edit', {'id': itemTag.tag.id}) }}">
+                                        #{{ itemTag.tag.name }}
+                                    </a>
+                                </div>
+                            {% endfor %}
                         </div>
-                        <div class="item-description">
-                            {{ item.description }}
-                        </div>
-                        <div class="item-image">
-                            <img src="{{ asset('images/items/' ~ item.image) }}" alt="image" width="100px" height="100px">
-                        </div>
-                    </div>
-                </div>
+
+                    </td>
+                    <td>
+                        <a href="{{ path('admin_mapOption_edit', {'id': item.mapOption.id}) }}">
+                            {{ item.mapOption.name }}
+                        </a>
+                    </td>
+                    <td>
+                        <a href="{{ path('admin_items_delete', {'id': item.id}) }}" class="btn btn-danger">Удалить</a>
+                    </td>
+                </tr>
             {% endfor %}
-        </div>
+            </tbody>
+        </table>
+        {{ knp_pagination_render(items) }}
+
+
+
+        {#        <div class="items">#}
+{#            {% for item in items %}#}
+{#                <div class="item">#}
+{#                    <div class="item-content">#}
+{#                        <div class="item-name">#}
+{#                            <a href="{{ path('admin_item_info', {'id': item.id}) }}">{{ item.name }}</a>#}
+{#                        </div>#}
+{#                        <div class="item-description">#}
+{#                            {{ item.description }}#}
+{#                        </div>#}
+{#                        <div class="item-image">#}
+{#                            <img src="{{ asset('images/items/' ~ item.image) }}" alt="image" width="100px" height="100px">#}
+{#                        </div>#}
+{#                    </div>#}
+{#                </div>#}
+{#            {% endfor %}#}
+{#        </div>#}
     </div>
 
 

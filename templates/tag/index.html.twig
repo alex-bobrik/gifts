@@ -1,14 +1,47 @@
-{% extends 'base.html.twig' %}
+{% extends 'administrator_base.html.twig' %}
 
 {% block title %}Hello TagController!{% endblock %}
 
 {% block body %}
 
+    <style>
+        .search div{
+            display: inline-block;
+        }
+
+        .search-input input{
+            width: 100%;
+            margin-top: 10px;
+        }
+    </style>
+
    <div class="container">
+       <div class="button">
+           <a href="{{ path('admin_tag_new') }}" class="btn btn-primary" style="float: right; margin-top: 10px; margin-bottom: 10px">Новый тег</a>
+       </div>
+
+       <div class="search">
+           {{ form_start(form) }}
+           <div class="search-input">
+               {{ form_row(form.query, {
+                   'attr': {
+                       'placeholder': 'Поиск по названию',
+                   }
+               }) }}
+           </div>
+           <div class="search-submit">
+               {{ form_row(form.submit) }}
+
+           </div>
+           {{ form_end(form) }}
+       </div>
+
        <table class="table">
            <thead>
-           <th scope="col">Tag</th>
-           <th scope="col">Action</th>
+               <tr>
+                   <th scope="col">{{ knp_pagination_sortable(tags, 'Тег', ['t.name']) }}</th>
+                   <th scope="col"></th>
+               </tr>
            </thead>
            <tbody>
            {% for tag in tags %}
@@ -17,12 +50,14 @@
                    {{ tag.name }}
                </td>
                <td>
-                   <a href="{{ path('admin_tag_edit', {'id': tag.id}) }}" class="btn btn-info">Edit</a>
-                   <a href="{{ path('admin_tag_delete', {'id': tag.id}) }}" class="btn btn-danger">Delete</a>
+                   <a href="{{ path('admin_tag_edit', {'id': tag.id}) }}" class="btn btn-info">Изменить название</a>
+                   <a href="{{ path('admin_tag_delete', {'id': tag.id}) }}" class="btn btn-danger">Удалить</a>
                </td>
                {% endfor %}
            </tbody>
        </table>
+       {{ knp_pagination_render(tags) }}
+
    </div>
 
 {% endblock %}

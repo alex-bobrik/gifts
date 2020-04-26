@@ -1,12 +1,60 @@
-{% extends 'base.html.twig' %}
+{% extends 'manager_base.html.twig' %}
 
 {% block title %}Hello OrderController!{% endblock %}
 
 {% block body %}
 
-    {% for order in orders %}
-        <p>{{ order.fullName }}</p>
-        <a href="{{ path('manager_orders_info', {'id': order.id}) }}">Check</a>
-    {% endfor %}
+    <div class="container">
+
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">{{ knp_pagination_sortable(orders, 'Номер заказа', ['o.id']) }}</th>
+                    <th scope="col">{{ knp_pagination_sortable(orders, 'Дата', ['o.order_date']) }}</th>
+                    <th scope="col">{{ knp_pagination_sortable(orders, 'Заказал', ['o.fullName']) }}</th>
+                    <th scope="col">Подарок</th>
+                    <th scope="col">{{ knp_pagination_sortable(orders, 'Тип доставки', ['o.is_delivery']) }}</th>
+                    <th scope="col">Вид оплаты</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for order in orders %}
+                <tr>
+                    <td>
+                        #{{ order.id }}
+                    </td>
+                    <td>
+                        {{ order.orderDate.format('d.m.Y H:i:s') }}
+                    </td>
+                    <td>
+                        {{ order.fullName }}
+                    </td>
+                    <td>
+                        {{ order.item.name }}
+                    </td>
+                    <td>
+                        {% if order.isDelivery %}
+                            Доставка ({{ order.deliveryAddress }})
+                        {% else %}
+                            Самовывоз
+                        {% endif %}
+                    </td>
+                    <td>
+                        {{ order.orderKind.name }}
+                    </td>
+                    <td>
+                        <a href="{{ path('manager_orders_info', {'id': order.id}) }}" class="btn btn-primary">
+                            Обработать заказ
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        {{ knp_pagination_render(orders) }}
+    </div>
+
 
 {% endblock %}

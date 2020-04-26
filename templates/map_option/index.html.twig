@@ -1,13 +1,47 @@
-{% extends 'base.html.twig' %}
+{% extends 'administrator_base.html.twig' %}
 
 {% block title %}Hello MapOptionController!{% endblock %}
 
 {% block body %}
+    <style>
+        .search div{
+            display: inline-block;
+        }
+
+        .search-input input{
+            width: 100%;
+            margin-top: 10px;
+        }
+    </style>
+
     <div class="container">
+
+        <div class="button">
+            <a href="{{ path('admin_mapOption_new') }}" class="btn btn-primary" style="float: right; margin-bottom: 10px; margin-top: 10px">Новая метка на карте</a>
+        </div>
+
+        <div class="search">
+            {{ form_start(form) }}
+            <div class="search-input">
+                {{ form_row(form.query, {
+                    'attr': {
+                        'placeholder': 'Поиск по названию',
+                    }
+                }) }}
+            </div>
+            <div class="search-submit">
+                {{ form_row(form.submit) }}
+
+            </div>
+            {{ form_end(form) }}
+        </div>
+
         <table class="table">
             <thead>
-                <th scope="col">Map Option</th>
-                <th scope="col">Action</th>
+                <tr>
+                    <th scope="col">{{ knp_pagination_sortable(mapOptions, 'Метка на карте', ['m.name']) }}</th>
+                    <th scope="col"></th>
+                </tr>
             </thead>
             <tbody>
             {% for mapOption in mapOptions %}
@@ -16,11 +50,12 @@
                     {{ mapOption.name }}
                 </td>
                 <td>
-                    <a href="{{ path('admin_mapOption_edit', {'id': mapOption.id}) }}" class="btn btn-info">Edit</a>
-                    <a href="{{ path('admin_mapOption_delete', {'id': mapOption.id}) }}" class="btn btn-danger">Delete</a>
+                    <a href="{{ path('admin_mapOption_edit', {'id': mapOption.id}) }}" class="btn btn-info">Изменить</a>
+                    <a href="{{ path('admin_mapOption_delete', {'id': mapOption.id}) }}" class="btn btn-danger">Удалить</a>
                 </td>
                 {% endfor %}
             </tbody>
         </table>
+        {{ knp_pagination_render(mapOptions) }}
     </div>
 {% endblock %}
