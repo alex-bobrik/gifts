@@ -15,4 +15,12 @@ class HomeController extends AbstractController
         return $this->redirectToRoute('find');
 
     }
+
+    /**
+     * @Route("/about-us", name="about")
+     */
+    public function about()
+    {
+        return $this->render('home/about.html.twig');
+    }
 }

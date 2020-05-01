@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello HomeController!{% endblock %}
+
+{% block body %}
+
+    <style>
+        body {
+            background-image: url("{{ asset('images/bg.jpg') }}");
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: top;
+        }
+
+        .about {
+            margin-top: 300px;
+            -webkit-text-stroke: 1px white;
+        }
+    </style>
+
+
+    <div class="container">
+        <div class="about text-center">
+            <a href="{{ path('find') }}" class="btn btn-info">На главную</a>
+            <h1>Разработано учащимся колледжа электроники</h1>
+            <h1>"Сервис по подбору подарков"</h1>
+            <h1>Бадун П.В.</h1>
+            <h2>МГКЭ</h2>
+        </div>
+    </div>
+
+{% endblock %}

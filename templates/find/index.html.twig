@@ -160,10 +160,14 @@
             margin-bottom: 50px;
             -webkit-text-stroke: 1px whitesmoke;
         }
-        .content {
-
-
+        .cat-header {
+            padding: 5px;
+            border-radius: 10px;
+            margin: 2px;
+            background: #FFFFFF;
         }
+
+
 
     </style>
 
@@ -172,6 +176,7 @@
         <div class="content">
 
             <div class="header text-center">
+                <a href="{{ path('about') }}" class="btn btn-light">О сервисе</a>
                 <h1>Выберите подарок по душе :)</h1>
             </div>
             {{ form_start(form) }}
@@ -180,7 +185,7 @@
 
                 <div class="col-md-4">
                     <div class="list">
-                        <p style="-webkit-text-stroke: 1px black">Кому</p>
+                        <p class="cat-header" style="-webkit-text-stroke: 1px black">Кому</p>
                         <hr>
                         {% for gender in form.gender %}
                             <div class="gender-item roundedTwo">
@@ -194,7 +199,7 @@
 
                 <div class="col-md-4">
                     <div class="list">
-                        <p style="-webkit-text-stroke: 1px black">Праздник/Событие</p>
+                        <p class="cat-header" style="-webkit-text-stroke: 1px black">Праздник/Событие</p>
                         <hr>
                         {% for holiday in form.holiday %}
                             <div class="holiday-item">
@@ -210,7 +215,7 @@
 
                 <div class="col-md-4">
                     <div class="list">
-                        <p style="-webkit-text-stroke: 1px black">Хобби/Увлечения</p>
+                        <p class="cat-header" style="-webkit-text-stroke: 1px black">Хобби/Увлечения</p>
                         <hr>
                         {% for hobbies in form.hobbies %}
                             <div class="hobbies-item">
