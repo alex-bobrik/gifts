@@ -1,0 +1,66 @@
+{% extends 'administrator_base.html.twig' %}
+
+{% block title %}Hello StatsController!{% endblock %}
+
+{% block body %}
+
+
+    <div class="container">
+        <div id="div_chart"></div>
+
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+        <script type="text/javascript">
+            {{ gc_draw(chart, 'div_chart') }}
+        </script>
+
+
+        <div class="orders">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">{{ knp_pagination_sortable(orders, 'Номер заказа', ['o.id']) }}</th>
+                    <th scope="col">Подарок</th>
+
+                    <th scope="col">{{ knp_pagination_sortable(orders, 'Заказал', ['o.fullName']) }}</th>
+                    <th scope="col">{{ knp_pagination_sortable(orders, 'Дата', ['o.order_date']) }}</th>
+
+                    <th scope="col">{{ knp_pagination_sortable(orders, 'Тип доставки', ['o.is_delivery']) }}</th>
+                    <th scope="col">Вид оплаты</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for order in orders %}
+                    <tr>
+                        <td>
+                            #{{ order.id }}
+                        </td>
+                        <td>
+                            {{ order.item.name }}
+                        </td>
+                        <td>
+                            {{ order.fullName }}
+                        </td>
+                        <td>
+                            {{ order.orderDate.format('d.m.Y H:i:s') }}
+                        </td>
+                        <td>
+                            {% if order.isDelivery %}
+                                Доставка ({{ order.deliveryAddress }})
+                            {% else %}
+                                Самовывоз
+                            {% endif %}
+                        </td>
+                        <td>
+                            {{ order.orderKind.name }}
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            {{ knp_pagination_render(orders) }}
+        </div>
+
+    </div>
+
+
+{% endblock %}
