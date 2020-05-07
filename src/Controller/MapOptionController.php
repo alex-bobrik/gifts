@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\MapOption;
+use App\Entity\Tag;
 use App\Form\Item\MapOptionType;
 use App\Form\SearchType;
 use App\Service\MapOptionService;
@@ -71,11 +72,24 @@ class MapOptionController extends AbstractController
     {
         $mapOption = new MapOption();
 
+
         $form = $this->createForm(MapOptionType::class, $mapOption);
 
         $form->handleRequest($request);
         if ($form->isSubmitted()) {
             $mapOption = $form->getData();
+
+            if
+            (
+                strtolower($mapOption->getName()) ===
+                strtolower($this->getDoctrine()->getRepository(MapOption::class)->findOneBy(['name' => $mapOption->getName()])->getName())
+            )
+            {
+                $this->addFlash('danger','Метка с таким названием уже существует');
+
+                return $this->redirectToRoute('admin_mapOption_new');
+            }
+
             $mapOptionService->saveMapOption($mapOption);
 
             return $this->redirectToRoute('admin_mapOptions');

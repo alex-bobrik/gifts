@@ -80,8 +80,8 @@ class TagController extends AbstractController
 
             if
             (
-                $tag->getName() ==
-                $this->getDoctrine()->getRepository(Tag::class)->findOneBy(['name' => $tag->getName()])->getName()
+                strtolower($tag->getName()) ===
+                strtolower($this->getDoctrine()->getRepository(Tag::class)->findOneBy(['name' => $tag->getName()])->getName())
             )
             {
                 $this->addFlash('danger','Тег с таким названием уже существует');
