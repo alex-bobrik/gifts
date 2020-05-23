@@ -78,7 +78,6 @@ class SecurityController extends AbstractController
             ['username' => 'admin']
         );
 
-        // $argon2id$v=19$m=65536,t=4,p=1$9/zCeEoZgWOkbKEqPWfB0g$CUX7JfDs8D6V9mzMULyKGwOFpLJXCgthdbJxSz03/0A
         $form = $this->createForm(PasswordChangeType::class);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {

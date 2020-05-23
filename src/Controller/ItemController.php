@@ -106,33 +106,6 @@ class ItemController extends AbstractController
         ]);
     }
 
-//    /**
-//     * @Route("/admin/items/edit/{id}", name="admin_items_edit")
-//     * @param Request $request
-//     * @param ItemService $itemService
-//     * @param int $id
-//     * @return Response
-//     */
-//    public function editItem(Request $request, ItemService $itemService, int $id)
-//    {
-//        $item = $this->getDoctrine()->getRepository(Item::class)->find($id);
-//
-//        $form = $this->createForm(ItemType::class, $item);
-//
-//        $form->handleRequest($request);
-//        if ($form->isSubmitted()) {
-//            $item = $form->getData();
-//            $itemService->saveItem($item);
-//
-//            return $this->redirectToRoute('admin_item_info', ['id' => $item->getId()]);
-//        }
-//
-//        return $this->render('item/edit.html.twig', [
-//            'controller_name' => 'ItemController',
-//            'form' => $form->createView(),
-//        ]);
-//    }
-
     /**
      * @Route("/admin/items/delete/{id}", name="admin_items_delete")
      * @param ItemService $itemService
@@ -150,8 +123,6 @@ class ItemController extends AbstractController
             $this->addFlash('danger', 'Нельзя удалить подарок, есть связи');
         }
 
-
-//        $itemService->deleteItemById($id);
         return $this->redirectToRoute('admin_items');
     }
 }
