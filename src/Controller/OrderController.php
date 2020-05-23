@@ -34,8 +34,6 @@ class OrderController extends AbstractController
             $order->setOrderDate(new \DateTime('now'));
             $order->setIsComplete(false);
 
-//            dump($order); die;
-
             $em->persist($order);
             $em->flush();
 

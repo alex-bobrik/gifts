@@ -66,22 +66,6 @@ class ItemController extends AbstractController
         ]);
     }
 
-//    /**
-//     * @Route("/admin/items/{id}", name="admin_item_info", requirements={"id"="\d+"})
-//     * @param int $id
-//     * @return RedirectResponse|Response
-//     */
-//    public function itemInfo(int $id)
-//    {
-//        /** @var Item $item */
-//        $item = $this->getDoctrine()->getRepository(Item::class)->find($id);
-//
-//        return $this->render('item/info.html.twig', [
-//            'controller_name' => 'ItemController',
-//            'item' => $item,
-//        ]);
-//    }
-
     /**
      * @Route("/admin/items/new", name="admin_items_new")
      * @param Request $request

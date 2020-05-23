@@ -18,24 +18,25 @@ class OrderType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-//            ->add('order_date')
-//            ->add('item')
             ->add('fullName', TextType::class, [
                 'label' => 'ФИО',
                 'attr' => [
                     'class' => 'form-control',
+                    'maxLength' => '250',
                 ]
             ])
             ->add('phone_num', TextType::class, [
                 'label' => 'Номер телефона',
                 'attr' => [
                     'class' => 'form-control',
+                    'maxLength' => '50',
                 ]
             ])
             ->add('email', TextType::class, [
                 'label' => 'Email',
                 'attr' => [
                     'class' => 'form-control',
+                    'maxLength' => '250',
                 ]
             ])
             ->add('is_delivery', ChoiceType::class, [
@@ -52,6 +53,7 @@ class OrderType extends AbstractType
                 'label' => 'Адрес доставки',
                 'attr' => [
                     'class' => 'form-control',
+                    'maxLength' => '250',
                 ]
             ])
             ->add('order_kind', EntityType::class, [

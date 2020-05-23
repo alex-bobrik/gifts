@@ -23,9 +23,16 @@ class ItemType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name', TextType::class)
+            ->add('name', TextType::class, [
+                'attr' => [
+                    'maxLength' => '250',
+                ]
+            ])
             ->add('description', TextareaType::class, [
                 'required' => false,
+                'attr' => [
+                    'maxLength' => '250',
+                ]
             ])
             ->add('image', FileType::class, [
                 'label' => false,

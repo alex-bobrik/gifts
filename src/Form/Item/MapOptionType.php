@@ -15,6 +15,9 @@ class MapOptionType extends AbstractType
         $builder
             ->add('name', TextType::class, [
                 'label' => 'Новая метка',
+                'attr' => [
+                    'maxLength' => '250',
+                ]
             ])
         ;
     }

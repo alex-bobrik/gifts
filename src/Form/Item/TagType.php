@@ -21,6 +21,7 @@ class TagType extends AbstractType
                 'label' => 'Название тега',
                 'attr' => [
                     'class' => 'form-control',
+                    'maxLength' => '250',
                 ]
             ])
             ->add('tagKind', EntityType::class, [
