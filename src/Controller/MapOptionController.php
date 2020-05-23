@@ -79,12 +79,7 @@ class MapOptionController extends AbstractController
         if ($form->isSubmitted()) {
             $mapOption = $form->getData();
 
-            if
-            (
-                strtolower($mapOption->getName()) ===
-                strtolower($this->getDoctrine()->getRepository(MapOption::class)->findOneBy(['name' => $mapOption->getName()])->getName())
-            )
-            {
+            if ($this->getDoctrine()->getRepository(MapOption::class)->findBy(['name' => $mapOption->getName()])) {
                 $this->addFlash('danger','Метка с таким названием уже существует');
 
                 return $this->redirectToRoute('admin_mapOption_new');

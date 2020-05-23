@@ -78,12 +78,7 @@ class TagController extends AbstractController
         if ($form->isSubmitted()) {
             $tag = $form->getData();
 
-            if
-            (
-                strtolower($tag->getName()) ===
-                strtolower($this->getDoctrine()->getRepository(Tag::class)->findOneBy(['name' => $tag->getName()])->getName())
-            )
-            {
+            if ($this->getDoctrine()->getRepository(Tag::class)->findBy(['name' => $tag->getName()])) {
                 $this->addFlash('danger','Тег с таким названием уже существует');
 
                 return $this->redirectToRoute('admin_tag_new');
