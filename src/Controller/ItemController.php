@@ -107,6 +107,55 @@ class ItemController extends AbstractController
     }
 
     /**
+     * @Route("/admin/items/edit/{id}", name="admin_items_edit", requirements={"id"="\d+"})
+     * @param Request $request
+     * @param ItemService $itemService
+     * @return Response
+     */
+    public function editItem(Request $request, ItemService $itemService, int $id)
+    {
+        /** @var Item $item */
+        $item = $this->getDoctrine()->getRepository(Item::class)->find($id);
+        $originalImage = $item->getImage();
+        $item->setImage(null);
+
+        $form = $this->createForm(ItemType::class, $item);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $item = $form->getData();
+
+            if ($item->getImage()) {
+
+                $file = new UploadedFile($form->get('image')->getData(), 'file');
+
+                $date = new \DateTime('now');
+                $date = $date->format('m-d-Y_H-i-m');
+                $fileName = $file->getFileName() . '_' . $date . '.' . $file->guessExtension();
+
+                $file->move(
+                    $this->getParameter('files_directory'),
+                    $fileName
+                );
+
+                $item->setImage($fileName);
+            } else {
+                $item->setImage($originalImage);
+            }
+
+            $itemService->saveItem($item);
+
+            return $this->redirectToRoute('admin_items');
+        }
+
+        return $this->render('item/edit_item.html.twig', [
+            'controller_name' => 'ItemController',
+            'form' => $form->createView(),
+        ]);
+    }
+
+    /**
      * @Route("/admin/items/delete/{id}", name="admin_items_delete")
      * @param ItemService $itemService
      * @param int $id
