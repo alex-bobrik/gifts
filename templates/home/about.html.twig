@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}О сервисе{% endblock %}
+{% block title %}О нас{% endblock %}
 
 {% block body %}
 
@@ -13,22 +13,63 @@
         }
 
         .about {
-            /*margin-top: 300px;*/
-            -webkit-text-stroke: 1px white;
+            left: 25%;
+            top: 25%;
+            position: absolute;
+            width: 50%;
         }
+
+        .about-help, .about-main{
+            padding: 20px;
+            margin: 10px;
+            background-color: #FFFFFF;
+            border-radius: 15px;
+            font-size: large;
+        }
+
+        .button-main {
+            width: 100%;
+        }
+
+
     </style>
 
 
     <div class="container">
-        <div class="text-center" style="margin-top: 300px">
-            <a href="{{ path('find') }}" class="btn btn-info">На главную</a>
+
+        <div class="about">
+            <a href="{{ path('find') }}" class="btn btn-info button-main">Вернуться на главную</a>
+
+            <div class="about-help">
+                <h4>Помощь</h4>
+                <hr>
+                <p>Для подбора подарка следует выбрать нужные критерии на главной странице и нажать на кнопку "Искать".</p>
+                <p>Чтобы осуществить заказ выбранного подарка, следует заполнить и отправить форму заказа. Менеджер свяжется с Вами в ближайшее время!</p>
+            </div>
+
+            <div class="about-main">
+                <h4>О разработчике</h4>
+                <hr>
+                <p>
+                    Разработано учащимся колледжа электроники <br>
+                    "Веб-приложение для подбора подарков" <br>
+                    Бадун П.В.
+                </p>
+            </div>
         </div>
-        <div class="about text-center">
-            <h1>Разработано учащимся колледжа электроники</h1>
-            <h1>"Сервис по подбору подарков"</h1>
-            <h1>Бадун П.В.</h1>
-            <h2>МГКЭ</h2>
-        </div>
+
+
+
+
+{#        <div class="text-center" style="margin-top: 300px">#}
+{#            <a href="{{ path('find') }}" class="btn btn-info">На главную</a>#}
+{#        </div>#}
+{#        <div class="about text-center">#}
+{#            <h1>Разработано учащимся колледжа электроники</h1>#}
+{#            <h1>"Сервис по подбору подарков"</h1>#}
+{#            <h1>Бадун П.В.</h1>#}
+{#            <h2>МГКЭ</h2>#}
+{#        </div>#}
     </div>
 
 {% endblock %}
